@@ -1,0 +1,75 @@
+{
+  "name": "@ponydev/dsh-system-hud",
+  "version": "0.1.0",
+  "description": "DSH Web 插件：对话顶栏 / 输入框底部 / 侧栏底部显示本机 CPU、内存、磁盘、网络、I/O、温度，点开右侧「系统」详情",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "system",
+    "hardware",
+    "monitor",
+    "hud",
+    "cpu",
+    "memory",
+    "network",
+    "temperature"
+  ],
+  "license": "MIT",
+  "author": "Pony <205503242+jmaubay7@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PonyDevAI/dsh-system-hud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PonyDevAI/dsh-system-hud/issues"
+  },
+  "homepage": "https://github.com/PonyDevAI/dsh-system-hud#readme",
+  "type": "module",
+  "files": [
+    "lib",
+    "docs",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "RELEASE.md"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js"
+  },
+  "engines": {
+    "dsh": ">=0.2.0-rc.2 <0.3.0",
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/sample.js && node --check lib/metrics.js && node --check lib/client.js && node scripts/check-i18n.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "check-i18n": "node scripts/check-i18n.mjs",
+    "render": "node scripts/render-test.mjs"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-primitives",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "external": [
+        "@deepseek-ai/dsh-client-ui-primitives"
+      ]
+    }
+  }
+}

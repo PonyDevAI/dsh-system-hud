@@ -1,0 +1,13 @@
+- insert:
+    - id: system-hud
+      name: "@ponydev/dsh-system-hud"
+      config:
+        fastMs: 1000
+        slowMs: 5000
+        topProcMs: 30000
+        regions:
+          header: true
+          dock: true
+          sidebar: true
+          rightPane: true
+          bottomBar: false
