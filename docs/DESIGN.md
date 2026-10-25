@@ -1,7 +1,7 @@
 # dsh-system-hud · 设计定稿 v0.3
 
 > DSH Web 插件：把本机 CPU / 内存 / 磁盘 / 网络 / I/O / 温度 放在**三个原生位置**——对话顶栏入口、输入框底部 dock、侧边栏底部卡片；点任意一个打开右侧「系统」详情。设置里可逐个开关。
-> Mockup 在 `docs/mockups/hud/`；插槽证据见 [architecture-surfaces.md](architecture-surfaces.md)，取数实测见 [metrics-feasibility.md](metrics-feasibility.md)。
+> 效果图见 `docs/screenshots/`（由离线 harness `scripts/render-test.mjs` 用假数据生成，登记见 `docs/screenshots/MANIFEST.md`）；插槽证据见 [architecture-surfaces.md](architecture-surfaces.md)，取数实测见 [metrics-feasibility.md](metrics-feasibility.md)。
 
 ## 0. 名字与工程规范（对齐 `plugins/` 下已有三个插件）
 
@@ -76,7 +76,7 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 * 注册方式：`ctx.sidebarRightTabs.register({ id:'system-hud', kind:'system-hud', title: ()=>t('title') })`，`ctx.sidebarRight.openTab('system-hud')`。
 * 视觉上是 DSH 原生 tab 条里的一个「系统」tab（和 文件 / 浏览器 / 终端 并列），不自己造悬浮面板。
 * 点 ①②③ 任一处 → 打开该 tab 并滚到/高亮对应 section；再点一次收起。
-* 内容顺序：设备行（Mac Studio · Apple M1 Max · 1s 状态）→ CPU 每核条 + 负载 → 内存 → 磁盘 → 网络 60s 曲线 → 温度 → Top 进程 → 底部「采样 1s · 仅本机 | 设置 →」。
+* 内容顺序：设备行（Example Mac · Apple M2 Pro · 1s 状态）→ CPU 每核条 + 负载 → 内存 → 磁盘 → 网络 60s 曲线 → 温度 → Top 进程 → 底部「采样 1s · 仅本机 | 设置 →」。
 
 ## 4. 设置项完整清单（设置 → 系统 HUD）
 
@@ -100,7 +100,7 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 
 设置页同时显示插件自身开销（`宿主开销 0.6% 单核`）、实际生效的区域数量、以及「底栏被占用」之类的降级提示。
 
-![设置页](../mockups/hud/05-settings.png)
+![设置页](screenshots/02-settings.png)
 
 ## 5. 视觉规范
 
@@ -159,16 +159,18 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 
 ## 9. 右侧面板重设计
 
-面板的布局/字号/状态/响应式规范见 [`docs/PANEL-DESIGN.md`](PANEL-DESIGN.md)，效果图在 `docs/mockups/panel-redesign/`。
+面板的布局/字号/状态/响应式规范见 [`docs/PANEL-DESIGN.md`](PANEL-DESIGN.md)；效果图待用假数据重新生成（原效果图含真实机型信息，已删除）。
 
-## 10. Mockup 索引
+## 10. 截图索引
 
-| 文件 | 内容 |
-|---|---|
-| [06-regions-light](../mockups/hud/06-regions-light.png) | **主效果图**：真实界面里三个位置（①顶栏 ②输入框底部 ③侧栏底部） |
-| [07-regions-zoom](../mockups/hud/07-regions-zoom.png) | 三个位置特写 + ④右栏详情 + ⑤设置里的区域开关 |
-| [05-settings](../mockups/hud/05-settings.png) | 设置页：三处预览、位置开关、指标排序、不可用策略、采样、阈值、交互 |
-| [01](../mockups/hud/01-overview-dark.png) / [02](../mockups/hud/02-overview-light.png) / [03](../mockups/hud/03-bar-zoom.png) / [04](../mockups/hud/04-variants.png) | v0.1 备选形态（全宽底栏 / 悬停大卡 / 四方案对比），对应 ⑤ 那个可开关的备选位 |
+只保留离线 harness 用假数据生成、并在 [`docs/screenshots/MANIFEST.md`](screenshots/MANIFEST.md) 登记的截图：
+
+| 文件 | 内容 | 来源 |
+|---|---|---|
+| [01-regions.png](screenshots/01-regions.png) | **主图**：三个位置（①顶栏 ②输入框底部 ③侧栏底部）+ ④右栏详情 + ⑤设置区域开关 | `scripts/render-test.mjs` |
+| [02-settings.png](screenshots/02-settings.png) | 设置页整页：位置开关、指标排序、不可用策略、采样、阈值、交互 | `scripts/render-test.mjs` |
+
+原先的真机运行截图与效果图（含真实机型 / 会话标题）已删除；需要效果图时必须先用假数据重新生成并登记。
 
 ## 11. 实现状态
 

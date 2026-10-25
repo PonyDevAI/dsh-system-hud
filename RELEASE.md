@@ -9,14 +9,15 @@ git push --follow-tags
         │
         ▼
 GitHub Actions: .github/workflows/release.yml   (触发: push tags: v*)
-  1. 校验 tag 与 package.json 版本一致（不一致 → 失败）
-  2. 语法检查 + 冒烟测试 + i18n 键一致性
-  3. npm Trusted Publishing（OIDC）发布，附 provenance
+  1. 隐私门禁（本机路径/主机名/凭据）+ 截图来源门禁（MANIFEST）
+  2. 校验 tag 与 package.json 版本一致（不一致 → 失败）
+  3. 语法检查 + 插件标识一致性（verify-plugin）+ 冒烟测试 + i18n 键一致性
+  4. npm Trusted Publishing（OIDC）发布，附 provenance
      - 版本已存在则跳过（幂等，可安全重跑）
-  4. GitHub Release 正文 = CHANGELOG 当前版本条目
+  5. GitHub Release 正文 = CHANGELOG 当前版本条目
 ```
 
-CI（`.github/workflows/ci.yml`）在 push `main` / PR 时只跑检查（语法 + 冒烟 + i18n + `npm pack` 内容校验），**不会发布**。
+CI（`.github/workflows/ci.yml`）在 push `main` / PR 时只跑检查（隐私门禁 + 语法 + 插件标识一致性 + 冒烟 + i18n + `npm pack` 内容校验），**不会发布**。
 
 ## CHANGELOG 与 Release 正文（强制）
 
@@ -47,7 +48,7 @@ CI（`.github/workflows/ci.yml`）在 push `main` / PR 时只跑检查（语法 
 
 ```bash
 # 1. 更新 CHANGELOG.md（新增版本条目）与 package.json version
-npm run check && npm run smoke
+npm run check && npm run smoke   # check 含隐私 / 截图来源门禁
 # 2. 提交并打 tag
 git add -A && git commit -m "chore(release): vX.Y.Z"
 git tag vX.Y.Z

@@ -15,13 +15,9 @@
 
 ![三个位置](docs/screenshots/01-regions.png)
 
-![三处特写 + 右侧详情](docs/mockups/02-regions-zoom.png)
-
 ![设置 → 系统 HUD](docs/screenshots/02-settings.png)
 
-真实 DSH 实例里的侧栏卡片（首页无会话时只有 ③，① ② 需要打开一个会话）：
-
-![真实运行截图](docs/screenshots/03-live-hero.png)
+> 截图由离线 harness `scripts/render-test.mjs` 用假数据（`Example Mac` / `Apple M2 Pro`）生成：`npm run test-ui`；来源登记见 [`docs/screenshots/MANIFEST.md`](docs/screenshots/MANIFEST.md)。不要提交真机 / 真实账户截图。
 
 ## 安装
 
@@ -46,14 +42,14 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 
 设置 → 系统 HUD 顶部与其他插件一致：
 
-- 标题图标 + 版本号（`v0.1.0`）
+- 标题图标 + 版本号（`v0.1.2`）
 - **GitHub**（仓库）、**问题反馈**（Issues）、**检查更新**（查 npm 最新版，本地 `link:` 安装时显示「尚未发布到 npm」）
 - **恢复默认**（位置/指标/采样/阈值全部回到默认）
 - 控件全部用 DSH primitives（Button / Switch / SegmentedTabs / Modal），颜色只用 `--dsw-*` token
 
 ## 右侧面板
 
-面板的布局/字号/状态/响应式规范见 [docs/PANEL-DESIGN.md](docs/PANEL-DESIGN.md)，设计稿在 `docs/mockups/panel-redesign/`。
+面板的布局/字号/状态/响应式规范见 [docs/PANEL-DESIGN.md](docs/PANEL-DESIGN.md)，设计规范见 [`docs/PANEL-DESIGN.md`](docs/PANEL-DESIGN.md)（效果图已移除，恢复时须用假数据重新生成）。
 
 ## 功能特性
 
@@ -113,8 +109,8 @@ lib/sample.js     分层采样（快/慢/top、单飞、差分、暂停、失败
 lib/metrics.js    darwin/linux 解析与执行（命令白名单）
 lib/client.js     ModuleLoader bundle：三个位置、右侧「系统」tab、设置页、i18n
 cordis.patch.yml  bundle patch（插入 system-hud 行 + 默认配置）
-scripts/          smoke / check-i18n / release-notes / render-test
-docs/             DESIGN.md、CONTRACT.md、mockups、screenshots
+scripts/          smoke / check-i18n / release-notes / render-test / check-privacy / check-shots
+docs/             DESIGN.md、CONTRACT.md、PANEL-DESIGN.md、screenshots（MANIFEST 登记来源）
 ```
 
 ## 开发

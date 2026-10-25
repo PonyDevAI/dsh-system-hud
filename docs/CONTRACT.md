@@ -26,9 +26,9 @@
   "monotonicMs": 812341,             // 进程内单调时钟，用于差分
   "intervalMs": 1000,                // 快层周期
   "host": {
-    "name": "Mac Studio",            // 仅用于本机展示；远端访问时不外泄主机名（见 §6）
+    "name": "Example Mac",           // 仅用于本机展示；远端访问时不外泄主机名（见 §6）
     "platform": "darwin",            // darwin | linux | other
-    "chip": "Apple M1 Max",          // 可选，取不到为 null
+    "chip": "Apple M2 Pro",          // 可选，取不到为 null
     "cores": 10,
     "uptimeSec": 738000,
     "sampledAt": 1761340800000

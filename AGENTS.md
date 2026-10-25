@@ -23,7 +23,7 @@ scripts/verify-plugin.mjs    插件标识一致性（包名/patch/ModuleLoader i
 scripts/render-test.mjs      离线 UI 预览 + 本机 Chrome 截图
 docs/CONTRACT.md             Host↔Client 协议（字段名/单位以它为准）
 docs/DESIGN.md               架构、视觉规范、里程碑
-docs/mockups / docs/screenshots
+docs/screenshots             截图（只放离线 harness 用假数据生成的图，MANIFEST 登记）
 ```
 
 **约束**：Host 与 Client 不能互相 import；Client 不读文件/环境变量；跨端数据只走 `/system-hud` 的 JSON 协议。
@@ -32,7 +32,7 @@ docs/mockups / docs/screenshots
 
 1. `git status`、`git log --oneline -3` 确认工作区状态；
 2. 改字段/单位先改 [`docs/CONTRACT.md`](docs/CONTRACT.md)，再同时改 Host 与 Client；
-3. 改 UI 先对 `docs/mockups/` 的效果图，注意三处位置的宽度与折叠规则。
+3. 改 UI 先对 `docs/screenshots/` 里由离线 harness 生成的图（登记见 `docs/screenshots/MANIFEST.md`），注意三处位置的宽度与折叠规则。
 
 ## 3. 提交前必须通过
 
@@ -40,9 +40,11 @@ docs/mockups / docs/screenshots
 npm run check        # 语法 + i18n 键一致性 + 插件标识一致性（verify）
 npm run verify       # 包名 / cordis patch / ModuleLoader id / NS / 路由 一致性
 npm run smoke        # 解析/差分/配置（不触网）
-npm run test-ui       # 离线 UI 预览，截图自查
+npm run test-ui       # 离线 UI 预览，截图自查（假数据，本机 Chrome）
 npm pack --dry-run   # 发布内容检查
 ```
+
+其中 `npm run check` 含两道隐私门禁：`scripts/check-privacy.mjs`（真实路径/主机名/凭据）与 `scripts/check-shots.mjs`（docs 下每张截图必须有 MANIFEST 登记且来源为 `scripts/*.mjs`）。
 
 CI 重复执行以上检查；失败不合并。
 
@@ -69,6 +71,7 @@ CI 重复执行以上检查；失败不合并。
 - 不要在 `inject` 里放可选服务（用 `ctx.get` 宽松读取）；
 - 不要在 Client 里 `setInterval` 之外再起轮询；不要每个位置各建 store；
 - 不要重启 dsh 做 UI 自测（用 `npm run test-ui`）；不要提交 `*.tgz`、密钥、真实主机名/用户路径。
+- **不要提交真机 / 真实账户截图**：截图必须由离线 harness + 假数据生成，并在 `docs/screenshots/MANIFEST.md` 登记；示例机型统一用 `Example Mac` / `Apple M2 Pro` / `macOS 15.0`。
 
 ## 7. 版本与发布
 

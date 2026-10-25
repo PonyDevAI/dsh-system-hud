@@ -32,7 +32,7 @@ import {
   sanitizeConfig,
 } from '../lib/index.js'
 
-// ── 真实 fixture（本机 macOS 26.7.1 / M1 Max 采到后裁剪；Linux 为用户态 /proc 典型输出） ──
+// ── 脱敏 fixture（macOS 典型输出；机型 / 网卡地址等均为示例值；Linux 为用户态 /proc 典型输出） ──
 const VM_STAT = `Mach Virtual Memory Statistics: (page size of 16384 bytes)
 Pages free:                                     8781.
 Pages active:                                 771996.
@@ -55,7 +55,7 @@ total = 10240.00M  used = 8579.19M  free = 1660.81M  (encrypted)
 const SYSCTL_IDENTITY = `10
 10
 34359738368
-Apple M1 Max
+Apple M2 Pro
 { sec = 1792150331, usec = 13886 } Fri Oct 16 19:32:11 2026
 `
 
@@ -64,11 +64,11 @@ lo0        16384 <Link#1>                      155496501     0 280084702782 1554
 lo0        16384 127           127.0.0.1       155496501     - 280084702782 155496501     - 280084702782     -
 gif0*      1280  <Link#2>                             0     0          0        0     0          0     0
 stf0*      1280  <Link#3>                             0     0          0        0     0          0     0
-anpi1      1500  <Link#6>    06:74:20:98:a8:ac     1120     0     116481     1196     0     131526     0
-en1        1500  <Link#9>    06:74:20:98:a8:8c 1000000     0  672463849  2000000     0  161828971     0
-en0        1500  <Link#20>   9c:76:0e:4a:be:11 119663674     0 101991625338 186715703     0 165591376489     0
+anpi1      1500  <Link#6>    02:00:00:00:00:01     1120     0     116481     1196     0     131526     0
+en1        1500  <Link#9>    02:00:00:00:00:02 1000000     0  672463849  2000000     0  161828971     0
+en0        1500  <Link#20>   02:00:00:00:00:03 119663674     0 101991625338 186715703     0 165591376489     0
 utun4      1500  <Link#24>                           0     0 12039947737       1     0 25992060898     0
-awdl0      1500  <Link#18>   92:24:db:77:09:20   198003     0   68549938   175986     0   42691103      0
+awdl0      1500  <Link#18>   02:00:00:00:00:04   198003     0   68549938   175986     0   42691103      0
 `
 
 // 无 Address 列（字段数 10）的链路行也要能解析
@@ -129,7 +129,7 @@ const PROC_DISKSTATS = `   8       0 sda 1000 0 20000 500 2000 0 40000 800 0 900
    7       0 loop0 10 0 20 1 0 0 0 0 0 0 0
 `
 
-// pmset -g therm：本机真实输出（无任何记录）与有记录时的典型输出
+// pmset -g therm：典型输出（无任何记录 / 有记录两个样例）
 const PMS_THERM_NONE = `Note: No thermal warning level has been recorded
 Note: No performance warning level has been recorded
 Note: No CPU power status has been recorded
@@ -188,7 +188,7 @@ test('parseSysctl：memsize / swapusage / boottime / brand', () => {
   assert.equal(s['hw.ncpu'], 10)
   assert.equal(s['hw.physicalcpu'], 10)
   assert.equal(s['hw.memsize'], 34359738368)
-  assert.equal(s['machdep.cpu.brand_string'], 'Apple M1 Max')
+  assert.equal(s['machdep.cpu.brand_string'], 'Apple M2 Pro')
   assert.equal(s['kern.boottime'].sec, 1792150331)
 
   const mem = parseSysctl(SYSCTL_MEMORY, ['hw.memsize', 'vm.swapusage'])

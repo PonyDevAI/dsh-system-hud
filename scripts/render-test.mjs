@@ -24,9 +24,9 @@ const CHROME_CANDIDATES = [
 // 与 DESIGN/mockup 一致的设计稿数值（真实运行时这些字段都来自 Host 快照）
 const FIXTURE = {
   host: {
-    name: 'Mac Studio',
+    name: 'Example Mac',
     platform: 'darwin',
-    chip: 'Apple M1 Max',
+    chip: 'Apple M2 Pro',
     cores: 10,
     uptimeSec: 738000,
     sampledAt: 0,
@@ -191,12 +191,12 @@ const html = `<!doctype html>
     <div class="sideactions"><div class="sbtn">＋ 新会话</div><div class="search">搜索会话</div></div>
     <div class="scroll">
       <div class="grp">今天</div>
-      <div class="item on">把硬件状态条加进 dsh</div>
-      <div class="item">修复 dsh 插件热更新</div>
-      <div class="item">整理模型用量方案</div>
+      <div class="item on">系统 HUD 设计稿走查</div>
+      <div class="item">插件热更新调试</div>
+      <div class="item">用量统计方案</div>
       <div class="grp">昨天</div>
-      <div class="item">排查 zai-coding-cn 401</div>
-      <div class="item">升级 Node 24</div>
+      <div class="item">排查 Provider 401</div>
+      <div class="item">升级 Node 版本</div>
     </div>
     <div class="foot">
       <div class="qcard"><div class="r1"><span class="nm">每月限额</span><span class="bar"><i></i></span><span class="left">剩余 54%</span></div></div>
@@ -209,7 +209,7 @@ const html = `<!doctype html>
   </aside>
   <main class="main">
     <div class="head">
-      <span class="title">把硬件状态条加进 dsh</span>
+      <span class="title">系统 HUD 设计稿走查</span>
       <div class="tools"><span>⌘L 会话日志</span><span>更多</span><span id="headerRoot"></span><span class="account">◔</span></div>
     </div>
     <div class="chat"><div class="wo">
@@ -340,8 +340,8 @@ window.fetch = async function (url, init) {
   } else if (endpoint === 'update-check') {
     value = {
       name: '@ponydev/dsh-system-hud',
-      current: '0.1.0',
-      latest: '0.1.0',
+      current: '0.1.4',
+      latest: '0.1.4',
       updateAvailable: false,
       command: 'dsh plugin --profile web add @ponydev/dsh-system-hud@latest',
       error: null

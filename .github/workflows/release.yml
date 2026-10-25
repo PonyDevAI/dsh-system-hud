@@ -18,6 +18,11 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Privacy + screenshot source gates
+        run: |
+          node scripts/check-privacy.mjs
+          node scripts/check-shots.mjs
+
       - name: Verify tag matches package version
         run: |
           TAG="${GITHUB_REF_NAME#v}"
@@ -28,9 +33,9 @@ jobs:
           fi
 
       - name: Syntax + smoke + i18n
-          node scripts/verify-plugin.mjs
         run: |
           for f in lib/*.js; do node --check "$f"; done
+          node scripts/verify-plugin.mjs
           node scripts/smoke.mjs
           node scripts/check-i18n.mjs
 

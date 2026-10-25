@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.4 — 2026-10-26
+
+### 隐私
+
+- 文档与离线 harness 的示例机型统一改为 `Example Mac` / `Apple M2 Pro` / `macOS 15.0`：移除真实机型与真实会话标题；`scripts/smoke.mjs` fixture 同步脱敏（品牌串、网卡地址）。
+- 删除含真实运行数据的截图：`docs/screenshots/03-live-hero.png` … `07-live-settings-nav.png` 与 `docs/mockups/**` 效果图；只保留由 `scripts/render-test.mjs` 用假数据重新生成的 `01-regions.png` / `02-settings.png`，并新增 `docs/screenshots/MANIFEST.md` 登记来源。
+- 新增门禁 `scripts/check-privacy.mjs`（本机绝对路径 / 私有主机名 / 凭据）与 `scripts/check-shots.mjs`（截图必须由离线 harness 生成并在 MANIFEST 登记），接入 `npm run check`、CI 与 release。
+
+### 修复
+
+- `.github/workflows/release.yml`：`node scripts/verify-plugin.mjs` 原先因缩进被 YAML 折叠进上一步 `name`，从未执行；现移入 `run:` 块，发布时恢复插件标识一致性校验。
+
+### 打包
+
+- `files` 由 `"docs"` 改为 `"docs/*.md"`：只发布文档，不再把截图 / 效果图打进 npm 包。
+
 ## 0.1.3 — 2026-10-26
 
 ### 修复
@@ -54,5 +70,5 @@
 - Client 半区：三个原生位置（`conversation.session.header.utilities`、`conversation.composer.dock`、`sidebar.footer.action`）、右侧「系统」tab（`sidebar.right.pane.tab`）、设置页（`settings.section`）。
 - 设置项：三个位置 + 备选底栏开关、指标开关与顺序、不可用数据策略（隐藏 / 显示 — / 代理）、采样周期、阈值与颜色、点击行为、悬停延时。
 - 状态处理：`sampledAt` 计算 stale；温度不可用在 macOS 上按策略渲染，不填 0。
-- 真实宿主验证：在隔离 `DSH_HOME` 启动 `dsh web`，`/system-hud/snapshot` 返回真实指标（未认证 401），浏览器加载客户端 bundle 后侧栏卡片正常渲染（`docs/screenshots/03-live-hero.png`）。
+- 真实宿主验证：在隔离 `DSH_HOME` 启动 `dsh web`，`/system-hud/snapshot` 返回真实指标（未认证 401），浏览器加载客户端 bundle 后侧栏卡片正常渲染。
 - 工程：`npm run check`（语法 + i18n 键一致）、`npm run smoke`（离线解析/差分/配置）、`npm run render`（离线 UI 预览 + 截图）、CI 与 tag 发布工作流。

@@ -8,9 +8,9 @@
 | 仓库结构 | `lib/` + `cordis.patch.yml` + `scripts/` + `docs/` + 根文档 | 同 | ✅ |
 | 根文档 | AGENTS / CONTRIBUTING / RELEASE / CHANGELOG / README / LICENSE | 同 | ✅ |
 | AGENTS.md | 0–7 节（一句话/目录/修改前/提交前/安全/UI/不要做/发布） | 同结构 | ✅ |
-| scripts | `smoke` / `check-i18n` / `release-notes` / `render-test` | 同；命令名 `test-ui`（原 `render`） | 🔧 |
+| scripts | `smoke` / `check-i18n` / `release-notes` / `render-test` | 同；命令名 `test-ui`（原 `render`）；另加 `check-privacy` / `check-shots` 门禁 | 🔧 |
 | package.json scripts | `check` / `smoke` / `check-i18n` / `release-notes` / `test-ui` | 同 | 🔧 |
-| CI | `node --check lib/*.js` + smoke + i18n + `npm pack --dry-run` | 同（ci.yml 直接对齐 dsh-phone） | 🔧 |
+| CI | `node --check lib/*.js` + smoke + i18n + `npm pack --dry-run` | 同，另加 privacy 门禁（release 再加 shots） | 🔧 |
 | 发布 | `v*` tag + OIDC Trusted Publishing + `--provenance` + CHANGELOG 抽正文 + GitHub Release | 原为 `NPM_TOKEN`，已改 | 🔧 |
 | engines | `dsh >=0.2.0-rc.2 <0.3.0`（+ node >=22.5） | 同 | ✅ |
 | Host 注册 | `export function apply(ctx, rawConfig)` + `cordis.patch.yml insert` | 同 | ✅ |
@@ -57,7 +57,7 @@
 - 只改这一格，其他 section（包括同样回退齿轮的 IM 助理）不动；
 - DSH 若改导航 DOM 结构，补丁会**静默失效**（回退成齿轮），不会报错、不影响其他功能。
 
-打开设置页后的实际效果见 [`docs/screenshots/07-live-settings-nav.png`](screenshots/07-live-settings-nav.png)。
+打开设置页后，左侧导航里本插件那一格显示自绘「显示器 + 心跳线」图标（不再提交真实运行截图）。
 
 ## 保留差异及理由
 

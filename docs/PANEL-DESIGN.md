@@ -1,7 +1,7 @@
 # 右侧「系统」面板 · UI 重设计规范 v1
 
 > 目标：把当前单列拉伸的面板，改成**一眼率（glanceable）+ 可扫描 + 可下钻**的系统监控面板；420px 单列与宽屏/全屏双列都成立。
-> 效果图：[浅色](mockups/panel-redesign/01-panel-light.png) · [深色](mockups/panel-redesign/02-panel-dark.png) · [宽屏双列](mockups/panel-redesign/03-panel-wide.png)
+> 效果图待用假数据重新生成（原浅色 / 深色 / 宽屏双列三张效果图印有真实机型信息，已删除）。
 
 ## 1. 现状诊断（对着线上截图）
 
@@ -30,7 +30,7 @@
 ## 3. 结构规范
 
 ```
-[设备行]  ● 本机 · Mac Studio · Apple M1 Max · 10 核 · macOS 26.7        [1s]
+[设备行]  ● 本机 · Example Mac · Apple M2 Pro · 10 核 · macOS 15.0       [1s]
 ──────────────────────────────────────────────────────────────
 CPU            [正常]
 ◔24%   近60s 峰值41%  ⟿spark               负载 2.31/2.10/1.98
@@ -107,7 +107,7 @@ node              ███████░░░    38.2%   4.1 G
 - [x] stale 按各 section 采样周期判定（fast/slow/top），修掉内存/磁盘“已过期 4s”误报；
 - [x] 默认指标隐藏改为 `["load"]`（Top 进程默认可见）；
 - [x] 速率单位统一 `B/s`（KB/s、MB/s），进程表支持按 CPU / 内存排序；
-- [x] 真实实例验证：420 单列与 719 宽双列均正常，无 console 错误（截图 `docs/screenshots/08-panel-wide-live.png`）。
+- [x] 真实实例验证：420 单列与 719 宽双列均正常，无 console 错误（真实实例截图不入库，仅保留 harness 假数据截图）。
 
 ## 8. 验收清单
 
