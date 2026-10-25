@@ -46,7 +46,7 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 |---|---|---|---|---|
 | ① | 对话顶栏入口 | `conversation.session.header.utilities`（list / session） | **开** | 两个 15px 小环 + 温度（~170px），和「会话日志 / 更多 / 账号」同一行；点击开右栏详情 |
 | ② | 输入框底部 | `conversation.composer.dock`（list / session） | **开** | 追加一个原生风格 pill：`CPU 71% · 内存 77% · 磁盘 55% · ↑10.5M ↓5.6M · 62°C`，和「轮次 · tok/s」「token · 缓存命中」「上下文环」同一行 |
-| ③ | 侧边栏底部 | `sidebar.footer.action`（list / root，wide 标记） | **开** | 240px 卡片：3 个 34px 环 + 一行网络/IO/温度；在「每月限额」下面、插件/更多上面 |
+| ③ | 侧边栏底部 | `sidebar.footer.action`（折叠态图标）+ `shell.overlay`（展开态浮层卡） | **开** | 240px 卡片：3 个 34px 环 + 一行网络/IO/温度；锚定在 footer 单行**上方**（该行被「模型额度」整行占用） |
 | ④ | 右侧详情 | `sidebar.right.pane.tab`（原生 tab） | **开** | 点 ①②③ 任一处打开；原生「系统」tab：每核 / 内存 / 磁盘 / 网络曲线 / 温度 / Top 进程 |
 | ⑤ | 全宽底栏（备选） | `shell.bottom`（single / root） | 关 | 46px 全宽状态条；喜欢「一条底栏」时再开，默认不占高度 |
 
@@ -54,7 +54,7 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 
 * ① 顶栏 utilities 只剩 ~170px：只放两个小环 + 温度；完整数据在 ④。被其他插件按钮挤时优先缩成单个图标 + 温度。
 * ② composer dock 是文本行：窄窗口按 CPU → 内存 → 磁盘 → 网络 依次折叠，剩余项进 tooltip；不与上下文环抢位置。
-* ③ 240px 卡片固定 3 环 + 一行摘要；折叠侧栏时只剩图标入口。
+* ③ 240px 卡片固定 3 环 + 一行摘要。**DSH 的 `sidebar.footer.action` 是 nowrap 横向 flex（宽 256px），已被「模型额度」240px 卡片占满，第二张整宽卡会被挤到 x=276 裁掉**；因此展开态改用 `shell.overlay` 浮层，锚定在 footer 行上方（模型额度卡之上），折叠态才用 footer 图标。
 * 关掉某个位置 = **完全卸载**：不注册、不渲染、不采样。至少保留一个，否则禁用「全部关闭」。
 * ④ 右栏 tab 只在**有可见会话**时能开；无会话时点击退化为 hover 大卡（`shell.overlay`）内联详情，不报错。
 
