@@ -185,6 +185,7 @@ const html = `<!doctype html>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 </head><body>
 <div class="app">
+  <div id="overlayRoot" style="position:fixed;left:0;top:0;width:100%;height:100%;z-index:20;pointer-events:none"></div>
   <aside class="sidebar">
     <div class="brand"><span class="logo"></span>DeepSeek Harness</div>
     <div class="sideactions"><div class="sbtn">＋ 新会话</div><div class="search">搜索会话</div></div>
@@ -199,7 +200,9 @@ const html = `<!doctype html>
     </div>
     <div class="foot">
       <div class="qcard"><div class="r1"><span class="nm">每月限额</span><span class="bar"><i></i></span><span class="left">剩余 54%</span></div></div>
-      <div id="footRoot"></div>
+      <div id="footHost" style="width:256px;display:flex">
+        <div data-slot="sidebar.footer.action" style="display:contents"><div id="footRoot"></div></div>
+      </div>
       <div class="frow"><span class="ic">◇</span>插件</div>
       <div class="frow"><span class="ic">⋯</span>更多</div>
     </div>
@@ -424,13 +427,14 @@ const tabInfo = { tab: { id: 'tab-1', visible: true, navigation: { params: {} } 
 ReactDOM.createRoot(document.getElementById('headerRoot')).render(renderSlot('conversation.session.header.utilities'))
 ReactDOM.createRoot(document.getElementById('dockRoot')).render(renderSlot('conversation.composer.dock'))
 ReactDOM.createRoot(document.getElementById('footRoot')).render(renderSlot('sidebar.footer.action', { wide: true }))
+ReactDOM.createRoot(document.getElementById('overlayRoot')).render(renderSlot('shell.overlay'))
 ReactDOM.createRoot(document.getElementById('paneRoot')).render(renderSlot('sidebar.right.pane.tab', { useTabInfo: function () { return tabInfo } }))
 ReactDOM.createRoot(document.getElementById('settingsRoot')).render(renderSlot('settings.section', { close: function () {} }))
 
 // #interact：点侧栏卡片（应 openTab）+ 打开「全宽底栏」开关（应 save-config）
 if (HASH.indexOf('interact') >= 0) {
   setTimeout(function () {
-    const card = document.querySelector('#footRoot .huds-card')
+    const card = document.querySelector('#overlayRoot .huds-card')
     if (card) card.click()
     const switches = document.querySelectorAll('#settingsRoot .huds-region .huds-switch')
     if (switches.length >= 5) switches[4].click()
@@ -439,7 +443,7 @@ if (HASH.indexOf('interact') >= 0) {
 
 setTimeout(function () {
   const slots = Object.keys(captured).join(',')
-  const rootText = ['#headerRoot', '#dockRoot', '#footRoot', '#paneRoot']
+  const rootText = ['#headerRoot', '#dockRoot', '#overlayRoot', '#paneRoot']
     .map(function (selector) { const node = document.querySelector(selector); return node ? node.innerText : '' })
     .join(String.fromCharCode(10))
   window.__RENDER_INFO__ = {
@@ -450,14 +454,14 @@ setTimeout(function () {
     opened: window.__OPENED__ || 0,
     header: !!document.querySelector('#headerRoot .huds-head'),
     dock: !!document.querySelector('#dockRoot .huds-dock'),
-    card: !!document.querySelector('#footRoot .huds-card'),
+    card: !!document.querySelector('#overlayRoot .huds-card'),
     pane: !!document.querySelector('#paneRoot .huds-pane'),
     settings: !!document.querySelector('#settingsRoot .huds-settings'),
     nan: /NaN|undefined/.test(rootText),
     dashCount: (rootText.match(/—/g) || []).length,
     dockText: (document.querySelector('#dockRoot .huds-dock') || {}).innerText || '',
     headerText: (document.querySelector('#headerRoot .huds-head') || {}).innerText || '',
-    cardText: (document.querySelector('#footRoot .huds-card') || {}).innerText || '',
+    cardText: (document.querySelector('#overlayRoot .huds-card') || {}).innerText || '',
     paneText: (document.querySelector('#paneRoot .huds-pane') || {}).innerText || ''
   }
   document.title = 'ready ' + JSON.stringify(window.__RENDER_INFO__)
