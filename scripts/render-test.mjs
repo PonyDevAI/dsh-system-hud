@@ -224,9 +224,9 @@ const html = `<!doctype html>
       <div class="crow2"><span class="chip">▱ 工作区内容修改 ⌄</span><span class="model"><span class="b">DeepSeek V4.1 Flash</span><span>Default</span><span class="send">↑</span></span></div>
     </div>
     <div class="meta">
+      <span id="dockRoot"></span>
       <span class="pill">◔ <b>1 轮 100 步</b> · 148 tok/s</span>
       <span class="pill">▤ <b>13.5M tok</b> · 缓存命中 98%</span>
-      <span id="dockRoot"></span>
       <span class="ctxring">◯ 22%</span>
     </div></div>
   </main>
