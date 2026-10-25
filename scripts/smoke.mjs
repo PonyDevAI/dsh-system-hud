@@ -516,7 +516,8 @@ test('快照形状严格对齐契约 §3（首帧全 null，不填 0）', () => 
 // ── 13. 命令白名单：无 shell、无外部参数 ──────────────────────────────────
 test('COMMANDS：全部是固定绝对路径 argv，无 shell 拼接', () => {
   const ids = Object.keys(COMMANDS)
-  assert.ok(ids.length >= 5, '白名单至少 5 条命令')
+  // darwin 需要 7 条外部命令；linux 主要读 /proc，只有 df/ps 等少量命令
+  assert.ok(ids.length >= (PLATFORM === 'darwin' ? 5 : 1), '白名单命令数量异常（' + PLATFORM + '）')
   for (const id of ids) {
     const argv = COMMANDS[id]
     assert.ok(Array.isArray(argv), id + ' 必须是 argv 数组')
