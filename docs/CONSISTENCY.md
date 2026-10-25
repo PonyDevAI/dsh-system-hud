@@ -46,11 +46,18 @@
 
 规则：**只有 npm 包名和 ModuleLoader id 带 `@ponydev/` 作用域**；其他运行时标识一律用短 slug，避免和宿主 `dsh-*` 类名/服务名冲突。
 
-## 设置页左侧导航图标（DSH 限制）
+## 设置页左侧导航图标（DSH 限制 + 客户端补丁）
 
-`dsh-client-ui-settings-general` 的导航图标由 `navIcon(sectionId)` 内置映射：只有 `account` / `models` / `agent-presets` / `plugins` / `archived-sessions` 有专属图标，**其他 id 一律回退 `IconSettingsOutlineMedium`（齿轮/设置图标）**。`settings.section` 的注册选项没有 `icon` 字段。
+`dsh-client-ui-settings-general` 的导航图标由 `navIcon(sectionId)` 内置映射：只有 `account` / `models` / `agent-presets` / `plugins` / `archived-sessions` 有专属图标，**其他 id 一律回退 `IconSettingsOutlineMedium`（齿轮）**；`settings.section` 注册选项没有 `icon` 字段。
 
-因此「系统 HUD」「模型用量」「Tailscale」「IM助理」在左侧导航里显示的都是同一个默认齿轮图标，插件侧无法覆盖；本插件只把**内容区标题图标**做成系统监控语义（见 `docs/screenshots/06-live-settings-head.png`）。
+实现方式（`lib/client.js` 的 `system-hud: settings nav icon` effect）：
+
+- 监听 DOM，在设置面板打开时找到 `nav button` 中 label 等于本插件标题的那一格，把它的 `<svg>` 换成「显示器 + 心跳线」图标（16px）；
+- React 重渲染后图标会被还原，MutationObserver 会自动补回；
+- 只改这一格，其他 section（包括同样回退齿轮的 IM 助理）不动；
+- DSH 若改导航 DOM 结构，补丁会**静默失效**（回退成齿轮），不会报错、不影响其他功能。
+
+打开设置页后的实际效果见 [`docs/screenshots/07-live-settings-nav.png`](screenshots/07-live-settings-nav.png)。
 
 ## 保留差异及理由
 
