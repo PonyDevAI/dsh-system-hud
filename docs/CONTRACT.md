@@ -102,7 +102,7 @@
   },
   "metrics": {                       // 指标开关与顺序；数组顺序即显示顺序
     "order": ["cpu", "memory", "disk", "network", "io", "temperature"],
-    "hidden": ["load", "processes"]
+    "hidden": ["load"]
   },
   "unavailable": "hide",             // hide | dash | proxy
   "thresholds": { "warn": 60, "crit": 85, "tempC": 90 },

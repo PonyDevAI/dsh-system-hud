@@ -51,6 +51,10 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 - **恢复默认**（位置/指标/采样/阈值全部回到默认）
 - 控件全部用 DSH primitives（Button / Switch / SegmentedTabs / Modal），颜色只用 `--dsw-*` token
 
+## 右侧面板
+
+面板的布局/字号/状态/响应式规范见 [docs/PANEL-DESIGN.md](docs/PANEL-DESIGN.md)，设计稿在 `docs/mockups/panel-redesign/`。
+
 ## 功能特性
 
 | 指标 | macOS | Linux | 数据来源 |

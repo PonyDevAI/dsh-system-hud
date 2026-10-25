@@ -99,7 +99,17 @@ node              ███████░░░    38.2%   4.1 G
 5. 宽度断点用容器宽度（右栏 420 / 全屏 ≥720），不要用 window.innerWidth（右栏可拖宽/全屏）。
 6. 进程排序：`按CPU`/`按内存` 两态，切换本地排序，不重新请求。
 
-## 7. 验收清单
+## 7. 实现状态（0.1.2 已落地）
+
+- [x] `SystemPane` 重写：DevRow / CpuHero（环 + spark + 负载/温度）/ CoreGrid / MemBar / DiskBar / NetRows / TempUnavailable / ProcTable / MoreChips / PaneFoot；
+- [x] 响应式断点 **600px**（右栏默认 420 单列；≥600 双列，进程表通栏）；
+- [x] store history 扩到 `{ t, cpu, rx, tx }`，CPU 60s 趋势；
+- [x] stale 按各 section 采样周期判定（fast/slow/top），修掉内存/磁盘“已过期 4s”误报；
+- [x] 默认指标隐藏改为 `["load"]`（Top 进程默认可见）；
+- [x] 速率单位统一 `B/s`（KB/s、MB/s），进程表支持按 CPU / 内存排序；
+- [x] 真实实例验证：420 单列与 719 宽双列均正常，无 console 错误（截图 `docs/screenshots/08-panel-wide-live.png`）。
+
+## 8. 验收清单
 
 - [ ] 420 与 900 宽都不出现拉伸空行 / 横向溢出；
 - [ ] 每个指标只有一个主值；单位与值同行且字号降级；
