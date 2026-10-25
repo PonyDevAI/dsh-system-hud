@@ -157,7 +157,11 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 - 隐私：只在本机渲染，不采集主机名/路径/用户名；远端访问显示「本机」。
 - 不做：进程 kill、磁盘清理、历史持久化（只留 60s 内存缓冲）、GPU（M4 后再评估）。
 
-## 9. Mockup 索引
+## 9. 右侧面板重设计
+
+面板的布局/字号/状态/响应式规范见 [`docs/PANEL-DESIGN.md`](PANEL-DESIGN.md)，效果图在 `docs/mockups/panel-redesign/`。
+
+## 10. Mockup 索引
 
 | 文件 | 内容 |
 |---|---|
@@ -166,7 +170,7 @@ README.md CHANGELOG.md CONTRIBUTING.md RELEASE.md LICENSE
 | [05-settings](../mockups/hud/05-settings.png) | 设置页：三处预览、位置开关、指标排序、不可用策略、采样、阈值、交互 |
 | [01](../mockups/hud/01-overview-dark.png) / [02](../mockups/hud/02-overview-light.png) / [03](../mockups/hud/03-bar-zoom.png) / [04](../mockups/hud/04-variants.png) | v0.1 备选形态（全宽底栏 / 悬停大卡 / 四方案对比），对应 ⑤ 那个可开关的备选位 |
 
-## 10. 实现状态
+## 11. 实现状态
 
 | 项 | 状态 | 证据 |
 |---|---|---|
