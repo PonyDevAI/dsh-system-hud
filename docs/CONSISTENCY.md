@@ -31,6 +31,21 @@
 | 测试 | smoke + i18n + 离线 UI harness（phone）/ 无（usage） | smoke 38 条 + i18n + harness 5 断言 | ✅ |
 | 文档 | DESIGN（+ 视情况 providers/architecture） | DESIGN + CONTRACT（多一份协议文档） | ✅ |
 
+## 标识符约定（package / slug / NS）
+
+| 用途 | 取值 | 依据 |
+|---|---|---|
+| npm 包名 / profile bundle 名 / ModuleLoader `id` | `@ponydev/dsh-system-hud` | 官方模板 `templates/decoration/client.js` 用完整包名；`dsh-phone` / `dsh-model-usage` 同 |
+| cordis patch 行 `id` | `system-hud` | 三个插件均为短 slug（`phone` / `model-usage` / `tailscale`） |
+| i18n NS | `dsh-system-hud` | 三个插件均为 `dsh-<slug>` |
+| Host `export const name` | `dsh-system-hud` | `dsh-phone` / `dsh-model-usage` 同风格（`dsh-tailscale` 用的是完整包名，属个别） |
+| HTTP 路由前缀 | `/system-hud` | 短 slug（`/phone`、`/model-usage`） |
+| 配置目录 | `$DSH_HOME/system-hud/` | 短 slug |
+| slot 注册 `id` / settings section `id` | `system-hud` | 官方模板用短 slug（`my-decoration`） |
+| 右栏 tab | `id: dsh-system-hud`、`kind: system-hud`、`openTab('system-hud')` | 对齐 `dsh-phone`：`id: 'dsh-phone'`、`kind: 'phone'`、`openTab('phone')` |
+
+规则：**只有 npm 包名和 ModuleLoader id 带 `@ponydev/` 作用域**；其他运行时标识一律用短 slug，避免和宿主 `dsh-*` 类名/服务名冲突。
+
 ## 设置页左侧导航图标（DSH 限制）
 
 `dsh-client-ui-settings-general` 的导航图标由 `navIcon(sectionId)` 内置映射：只有 `account` / `models` / `agent-presets` / `plugins` / `archived-sessions` 有专属图标，**其他 id 一律回退 `IconSettingsOutlineMedium`（齿轮/设置图标）**。`settings.section` 的注册选项没有 `icon` 字段。
