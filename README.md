@@ -19,6 +19,10 @@
 
 ![设置 → 系统 HUD](docs/screenshots/02-settings.png)
 
+真实 DSH 实例里的侧栏卡片（首页无会话时只有 ③，① ② 需要打开一个会话）：
+
+![真实运行截图](docs/screenshots/03-live-hero.png)
+
 ## 安装
 
 要求 DSH `>=0.2.0-rc.2 <0.3.0`。

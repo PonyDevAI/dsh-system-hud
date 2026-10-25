@@ -12,4 +12,5 @@
 - Client 半区：三个原生位置（`conversation.session.header.utilities`、`conversation.composer.dock`、`sidebar.footer.action`）、右侧「系统」tab（`sidebar.right.pane.tab`）、设置页（`settings.section`）。
 - 设置项：三个位置 + 备选底栏开关、指标开关与顺序、不可用数据策略（隐藏 / 显示 — / 代理）、采样周期、阈值与颜色、点击行为、悬停延时。
 - 状态处理：`sampledAt` 计算 stale；温度不可用在 macOS 上按策略渲染，不填 0。
+- 真实宿主验证：在隔离 `DSH_HOME` 启动 `dsh web`，`/system-hud/snapshot` 返回真实指标（未认证 401），浏览器加载客户端 bundle 后侧栏卡片正常渲染（`docs/screenshots/03-live-hero.png`）。
 - 工程：`npm run check`（语法 + i18n 键一致）、`npm run smoke`（离线解析/差分/配置）、`npm run render`（离线 UI 预览 + 截图）、CI 与 tag 发布工作流。
