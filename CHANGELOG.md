@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — 2026-10-25
+
+### 修复
+
+- 右侧「系统」tab 打开后显示「这类内容还没有可用的查看方式」：`sidebar.right.pane.tab` 的 body 注册 `key` 必须等于 `sidebarRightTabs.register` 的 `id`（DSH 用 `entryKey = definition.id` 查找 body），之前写成了 `system-hud`。
+- `scripts/verify-plugin.mjs` 增加一条回归校验：tab type id 与 body key 必须一致，防止再次发布坏包。
+
 ## 0.1.0 — 2026-10-25
 
 首个可用版本（M1）。

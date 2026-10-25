@@ -75,6 +75,12 @@ for (const match of clientSrc.matchAll(/ctx\.slots\.register\(\{\s*name: '([^']+
 for (const match of clientSrc.matchAll(/registerWhen\('([^']+)',\s*\{\s*name: '([^']+)',\s*id: '([^']+)'/g)) slotIds.push(match[3])
 const scopedSlotIds = slotIds.filter((id) => id.includes('@') || id.includes('/'))
 eq('slot 注册 id 不带 scope/斜杠', scopedSlotIds, [])
+// 右栏 tab：body 注册的 key 必须等于 tab type 的 id（DSH 用 entryKey=definition.id 查找 body，写错会显示「没有可用的查看方式」）
+const tabTypeId = (/tabs\.register\(\{[\s\S]{0,500}?\n\s*id:\s*'([^']+)'/.exec(clientSrc) || [])[1]
+const tabBodyKey = (/name:\s*'sidebar\.right\.pane\.tab'[\s\S]{0,300}?\bkey:\s*'([^']+)'/.exec(clientSrc) || [])[1]
+ok('找到右栏 tab 的 type id 与 body key', !!tabTypeId && !!tabBodyKey, { tabTypeId, tabBodyKey })
+eq('右栏 tab body key = tab type id', tabBodyKey, tabTypeId)
+
 // settings.section 的 id 必须是 slug（DSH 导航按 id 分组）
 const settingsId = (/name: 'settings\.section',\s*\n?\s*id: '([^']+)'/.exec(clientSrc) || [])[1]
 eq('settings.section id = slug', settingsId, slug)
