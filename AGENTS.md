@@ -19,6 +19,7 @@ cordis.patch.yml  bundle 补丁（插入 system-hud 行、默认配置）
 scripts/smoke.mjs            离线冒烟（解析 fixture、单位换算、差分、配置合并）
 scripts/check-i18n.mjs       zh/en 键一致 + 源码用键存在
 scripts/release-notes.mjs    从 CHANGELOG 抽取当前版本作为 GitHub Release 正文
+scripts/verify-plugin.mjs    插件标识一致性（包名/patch/ModuleLoader id/NS/路由），防改包名后宿主起不来
 scripts/render-test.mjs      离线 UI 预览 + 本机 Chrome 截图
 docs/CONTRACT.md             Host↔Client 协议（字段名/单位以它为准）
 docs/DESIGN.md               架构、视觉规范、里程碑
@@ -36,7 +37,8 @@ docs/mockups / docs/screenshots
 ## 3. 提交前必须通过
 
 ```bash
-npm run check        # 语法 + i18n 键一致性
+npm run check        # 语法 + i18n 键一致性 + 插件标识一致性（verify）
+npm run verify       # 包名 / cordis patch / ModuleLoader id / NS / 路由 一致性
 npm run smoke        # 解析/差分/配置（不触网）
 npm run test-ui       # 离线 UI 预览，截图自查
 npm pack --dry-run   # 发布内容检查

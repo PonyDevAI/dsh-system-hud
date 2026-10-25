@@ -116,7 +116,8 @@ docs/             DESIGN.md、CONTRACT.md、mockups、screenshots
 ## 开发
 
 ```bash
-npm run check      # 语法 + i18n 键一致性
+npm run check      # 语法 + i18n 键一致性 + 插件标识一致性
+npm run verify     # 单独校验插件 id / 名称（包名、cordis patch、ModuleLoader id、NS、路由）
 npm run smoke      # 离线解析/差分/配置冒烟（不触网）
 npm run test-ui     # 离线 UI 预览（有本机 Chrome 时截图到 docs/screenshots/）
 ```

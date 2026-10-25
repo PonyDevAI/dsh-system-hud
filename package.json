@@ -46,11 +46,12 @@
     "node": ">=22.5"
   },
   "scripts": {
-    "check": "node --check lib/index.js && node --check lib/sample.js && node --check lib/metrics.js && node --check lib/client.js && node scripts/check-i18n.mjs",
+    "check": "node --check lib/index.js && node --check lib/sample.js && node --check lib/metrics.js && node --check lib/client.js && node scripts/check-i18n.mjs && node scripts/verify-plugin.mjs",
     "smoke": "node scripts/smoke.mjs",
     "check-i18n": "node scripts/check-i18n.mjs",
     "release-notes": "node scripts/release-notes.mjs",
-    "test-ui": "node scripts/render-test.mjs"
+    "test-ui": "node scripts/render-test.mjs",
+    "verify": "node scripts/verify-plugin.mjs"
   },
   "dsh": {
     "manifestVersion": 1,

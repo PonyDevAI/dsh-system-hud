@@ -17,6 +17,8 @@ jobs:
           node-version: '24'
       - name: Syntax check
         run: for f in lib/*.js; do node --check "$f"; done
+      - name: Plugin id / name consistency
+        run: node scripts/verify-plugin.mjs
       - name: Smoke test
         run: node scripts/smoke.mjs
       - name: i18n key parity

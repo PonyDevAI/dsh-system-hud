@@ -28,6 +28,7 @@ jobs:
           fi
 
       - name: Syntax + smoke + i18n
+          node scripts/verify-plugin.mjs
         run: |
           for f in lib/*.js; do node --check "$f"; done
           node scripts/smoke.mjs
