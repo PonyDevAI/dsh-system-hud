@@ -4,6 +4,12 @@
 
 首个可用版本（M1）。
 
+### 设置页
+
+- 顶部按其他插件规范补齐：标题图标 + 版本号、GitHub、问题反馈、检查更新、恢复默认；
+- Host 新增 `update-check`（npm registry，10 分钟缓存，404 视为「尚未发布」）；
+- 设置页控件统一走 DSH primitives（Button / Switch / SegmentedTabs / Modal），只用 `--dsw-*` token。
+
 ### 新增
 
 - Host 半区：`/system-hud` 前缀路由（`snapshot` / `config` / `save-config` / `refresh`），`connection.admit` 认证围栏，配置持久化到 `$DSH_HOME/system-hud/config.json`（0600，原子写）。

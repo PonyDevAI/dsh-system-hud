@@ -42,6 +42,15 @@ dsh plugin --profile web add @ponydev/dsh-system-hud
 dsh plugin --profile web add link:/path/to/dsh-system-hud
 ```
 
+## 设置页（对齐其他插件）
+
+设置 → 系统 HUD 顶部与其他插件一致：
+
+- 标题图标 + 版本号（`v0.1.0`）
+- **GitHub**（仓库）、**问题反馈**（Issues）、**检查更新**（查 npm 最新版，本地 `link:` 安装时显示「尚未发布到 npm」）
+- **恢复默认**（位置/指标/采样/阈值全部回到默认）
+- 控件全部用 DSH primitives（Button / Switch / SegmentedTabs / Modal），颜色只用 `--dsw-*` token
+
 ## 能力与限制
 
 | 指标 | macOS | Linux | 数据来源 |

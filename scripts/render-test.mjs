@@ -337,6 +337,15 @@ window.fetch = async function (url, init) {
     value = config
     window.__SAVED__ = (window.__SAVED__ || 0) + 1
     window.__LAST_SAVE__ = body.payload || null
+  } else if (endpoint === 'update-check') {
+    value = {
+      name: '@ponydev/dsh-system-hud',
+      current: '0.1.0',
+      latest: '0.1.0',
+      updateAvailable: false,
+      command: 'dsh plugin --profile web add @ponydev/dsh-system-hud@latest',
+      error: null
+    }
   } else {
     return new Response(JSON.stringify({ ok: false, error: { code: 'not-found', message: endpoint } }), { status: 200, headers: { 'content-type': 'application/json' } })
   }
