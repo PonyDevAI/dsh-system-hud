@@ -23,13 +23,19 @@
 | i18n | NS = 包名，zh/en 键一致，`check-i18n` 强制 | 同（162 键） | ✅ |
 | Settings 页 | 标题 + 版本 + GitHub / 问题反馈 / 检查更新；更新弹窗 | 同；额外「恢复默认」 | ✅/⚠️ |
 | Settings 控件 | `dsh-model-usage` 用 primitives（Button/Switch/SegmentedTabs/Modal） | 同（Switch 已改用 `P.Switch`） | 🔧 |
-| Settings 图标 | usage 自绘图标、tailscale 无图标 | 用 primitives `IconGaugeOutlineRegular` | ⚠️ 合理 |
+| Settings 内容区图标 | usage 自绘图表图标、tailscale 无图标 | 自绘「显示器 + 心跳线」系统监控图标（16 视图框 / stroke 1.4 / 18px） | ⚠️ 合理 |
 | 检查更新 | `update-check` endpoint + registry 缓存 + 手工更新命令 | 同；404 显示「尚未发布」而非报错 | ✅/⚠️ |
 | 右侧栏 tab | `sidebarRightTabs.register({id,kind,title})` | 同 | ✅ |
 | CSS class 前缀 | `dmu-` / `dph-` / `dst-` | `huds-` | ⚠️ 功能无影响，可改 |
 | Token | 只用 `--dsw-*` | 同（全部带 fallback） | ✅ |
 | 测试 | smoke + i18n + 离线 UI harness（phone）/ 无（usage） | smoke 38 条 + i18n + harness 5 断言 | ✅ |
 | 文档 | DESIGN（+ 视情况 providers/architecture） | DESIGN + CONTRACT（多一份协议文档） | ✅ |
+
+## 设置页左侧导航图标（DSH 限制）
+
+`dsh-client-ui-settings-general` 的导航图标由 `navIcon(sectionId)` 内置映射：只有 `account` / `models` / `agent-presets` / `plugins` / `archived-sessions` 有专属图标，**其他 id 一律回退 `IconSettingsOutlineMedium`（齿轮/设置图标）**。`settings.section` 的注册选项没有 `icon` 字段。
+
+因此「系统 HUD」「模型用量」「Tailscale」「IM助理」在左侧导航里显示的都是同一个默认齿轮图标，插件侧无法覆盖；本插件只把**内容区标题图标**做成系统监控语义（见 `docs/screenshots/06-live-settings-head.png`）。
 
 ## 保留差异及理由
 
