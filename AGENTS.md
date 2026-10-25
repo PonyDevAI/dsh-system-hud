@@ -18,6 +18,7 @@ lib/client.js     ModuleLoader bundle（三个位置、右侧系统 tab、设置
 cordis.patch.yml  bundle 补丁（插入 system-hud 行、默认配置）
 scripts/smoke.mjs            离线冒烟（解析 fixture、单位换算、差分、配置合并）
 scripts/check-i18n.mjs       zh/en 键一致 + 源码用键存在
+scripts/release-notes.mjs    从 CHANGELOG 抽取当前版本作为 GitHub Release 正文
 scripts/render-test.mjs      离线 UI 预览 + 本机 Chrome 截图
 docs/CONTRACT.md             Host↔Client 协议（字段名/单位以它为准）
 docs/DESIGN.md               架构、视觉规范、里程碑
@@ -37,7 +38,7 @@ docs/mockups / docs/screenshots
 ```bash
 npm run check        # 语法 + i18n 键一致性
 npm run smoke        # 解析/差分/配置（不触网）
-npm run render       # 离线 UI 预览，截图自查
+npm run test-ui       # 离线 UI 预览，截图自查
 npm pack --dry-run   # 发布内容检查
 ```
 
@@ -65,7 +66,7 @@ CI 重复执行以上检查；失败不合并。
 - 不要引入构建工具/打包器/运行时依赖（手写 ModuleLoader bundle 是刻意设计）；
 - 不要在 `inject` 里放可选服务（用 `ctx.get` 宽松读取）；
 - 不要在 Client 里 `setInterval` 之外再起轮询；不要每个位置各建 store；
-- 不要重启 dsh 做 UI 自测（用 `npm run render`）；不要提交 `*.tgz`、密钥、真实主机名/用户路径。
+- 不要重启 dsh 做 UI 自测（用 `npm run test-ui`）；不要提交 `*.tgz`、密钥、真实主机名/用户路径。
 
 ## 7. 版本与发布
 

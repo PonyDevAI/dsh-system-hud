@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+
       - name: Verify tag matches package version
         run: |
           TAG="${GITHUB_REF_NAME#v}"
@@ -25,12 +26,32 @@ jobs:
             echo "tag $TAG != package.json $PKG" >&2
             exit 1
           fi
-      - name: Syntax + smoke
+
+      - name: Syntax + smoke + i18n
         run: |
           for f in lib/*.js; do node --check "$f"; done
           node scripts/smoke.mjs
           node scripts/check-i18n.mjs
-      - name: Publish
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Trusted Publishing（OIDC）：无需 NPM_TOKEN，凭 GitHub Actions 身份直接发布。
+      # npm 包设置 → Trusted Publisher 已配置：
+      #   Organization or user: PonyDevAI
+      #   Repository: dsh-system-hud
+      #   Workflow filename: release.yml
+      - name: Publish to npm (OIDC trusted publisher)
+        run: |
+          NAME="$(node -p "require('./package.json').name")"
+          VER="$(node -p "require('./package.json').version")"
+          if npm view "$NAME@$VER" version >/dev/null 2>&1; then
+            echo "$NAME@$VER already published, skipping npm publish"
+          else
+            npm publish --access public --provenance
+          fi
+
+      - name: Extract release notes from CHANGELOG
+        run: node scripts/release-notes.mjs /tmp/release-notes.md
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: /tmp/release-notes.md

@@ -51,7 +51,7 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 - **恢复默认**（位置/指标/采样/阈值全部回到默认）
 - 控件全部用 DSH primitives（Button / Switch / SegmentedTabs / Modal），颜色只用 `--dsw-*` token
 
-## 能力与限制
+## 功能特性
 
 | 指标 | macOS | Linux | 数据来源 |
 |---|---|---|---|
@@ -64,6 +64,25 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 | Top 进程 | ✅（`ps`） | ✅（`ps`） | 取不到时自动隐藏 |
 
 采样开销：快层（CPU + 网络）实测约 6ms/轮 ≈ 0.6% 单核；内存/磁盘/IO/温度 5s 一次；Top 进程 30s 一次。页面不可见或无位置启用时停止采样。
+
+## 已知限制
+
+- macOS 26 没有免特权温度源：`temperature.available=false`，按设置策略渲染（默认隐藏，绝不填 0）；Linux 读 `/sys/class/thermal`。
+- `sidebar.footer.action` 是 nowrap 横向单行、宽 256px，被「模型额度」卡片占满，所以展开态用 `shell.overlay` 浮层卡锚定在 footer 行上方；折叠态才用 footer 图标。
+- 右栏「系统」tab 只在有可见会话时可打开；无会话时点击退化为浮层大卡。
+- Top 进程依赖 `ps`，宿主侧可用但未在真实宿主内验证；取不到时该块自动隐藏。
+
+## 检查更新
+
+设置 → 系统 HUD 右上角「检查更新」查询 npm 最新版；本地 `link:` 安装（尚未发布）会显示「尚未发布到 npm」。
+Host 端 `update-check` 有 10 分钟缓存、8 秒超时，失败只写 `error` 字段，不影响页面其他部分。
+
+## 安全
+
+- 只执行**写死白名单**的系统命令（`vm_stat` / `netstat -ibn` / `df -k` / `ioreg` / `sysctl` / `pmset -g therm` / `ps`），`execFile` 数组参数、2s 超时、1 MiB 输出上限、SIGKILL 兜底；绝不拼接 shell，绝不接受前端传入的命令/参数。
+- `/system-hud/*` 全部走 `connection.admit` 认证围栏，未认证 401。
+- 配置落盘 `$DSH_HOME/system-hud/config.json`（目录 0700 / 文件 0600，tmp+rename 原子写），不存任何凭据。
+- 快照不含用户名、绝对路径、环境变量；远端访问时 UI 显示「本机」。
 
 ## 配置
 
@@ -82,12 +101,24 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 
 运行时偏好持久化在 `$DSH_HOME/system-hud/config.json`（0600），由设置页写回；Host 是唯一真相源。
 
+## 结构
+
+```
+lib/index.js      Host：/system-hud 路由、认证围栏、配置持久化、update-check
+lib/sample.js     分层采样（快/慢/top、单飞、差分、暂停、失败保留旧值）
+lib/metrics.js    darwin/linux 解析与执行（命令白名单）
+lib/client.js     ModuleLoader bundle：三个位置、右侧「系统」tab、设置页、i18n
+cordis.patch.yml  bundle patch（插入 system-hud 行 + 默认配置）
+scripts/          smoke / check-i18n / release-notes / render-test
+docs/             DESIGN.md、CONTRACT.md、mockups、screenshots
+```
+
 ## 开发
 
 ```bash
 npm run check      # 语法 + i18n 键一致性
 npm run smoke      # 离线解析/差分/配置冒烟（不触网）
-npm run render     # 离线 UI 预览（有本机 Chrome 时截图到 docs/screenshots/）
+npm run test-ui     # 离线 UI 预览（有本机 Chrome 时截图到 docs/screenshots/）
 ```
 
 接口契约见 [`docs/CONTRACT.md`](docs/CONTRACT.md)，设计与取舍见 [`docs/DESIGN.md`](docs/DESIGN.md)，项目规范见 [`AGENTS.md`](AGENTS.md)。

@@ -4,6 +4,14 @@
 
 首个可用版本（M1）。
 
+### 与其他插件规范对齐（2026-10-25）
+
+- 脚本命名统一为 `test-ui`，新增 `release-notes`
+- 发布工作流改为 OIDC Trusted Publishing（去掉 `NPM_TOKEN`）+ CHANGELOG 抽正文 + GitHub Release
+- CI 直接对齐 `dsh-phone`
+- 设置页 switch 改用 DSH primitives `P.Switch`；设置页图标用 `IconGaugeOutlineRegular`
+- README 补齐「功能特性 / 已知限制 / 检查更新 / 安全 / 结构」章节；新增 `docs/CONSISTENCY.md` 对照表
+
 ### 设置页
 
 - 顶部按其他插件规范补齐：标题图标 + 版本号、GitHub、问题反馈、检查更新、恢复默认；
