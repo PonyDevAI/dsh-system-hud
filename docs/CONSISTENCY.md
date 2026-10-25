@@ -44,6 +44,6 @@
 npm run check      # 语法 + i18n 162 键
 npm run smoke      # 38/38
 npm run test-ui    # 离线渲染 + 5 断言 + 截图
-npm run release-notes /tmp/notes.md
+node scripts/release-notes.mjs /tmp/notes.md
 npm pack --dry-run
 ```
