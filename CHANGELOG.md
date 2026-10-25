@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.6 — 2026-10-26
+
+### 修复（容器/云手机环境读到宿主机规格）
+
+在 4 核 / 8G 的容器里，面板会显示「128 核 · 内存 137G / 502G」——因为 `os.cpus()` 与 `/proc/meminfo` 看到的是**宿主机**，没有读 cgroup 配额。
+
+- **核数**：新增 `readCgroupCores()`（v2 `cpu.max` / v1 `cpu.cfs_quota_us`+`cfs_period_us` / `cpuset.cpus.effective`），与 `os.cpus()` 取 min
+- **内存**：新增 `readCgroupMemBytes()`（v2 `memory.max` / v1 `memory.limit_in_bytes`，`max` 视为不限），total 取 min(宿主机, cgroup)，used = total - available
+- **CPU 使用率**：容器限核时改用 `cpu.stat` 的 `usage_usec` 增量 ÷（耗时 × 配额核数），不再用宿主机 128 核口径；此场景隐藏"每核占用"网格（宿主机核与容器配额无映射关系）
+- 新增纯函数 `parseCpuMax` / `countCpuList` 及 6 条冒烟断言（39/39 通过）
+
 ## 0.1.5 — 2026-10-26
 
 ### 修复（多核机器上右侧面板布局重叠）

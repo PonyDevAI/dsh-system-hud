@@ -15,6 +15,8 @@ import {
   parseProcNetDev,
   parsePmsetTherm,
   parseProcStat,
+  parseCpuMax,
+  countCpuList,
   parsePs,
   parseSysctl,
   parseThermalSysfs,
@@ -550,6 +552,15 @@ test('runCommand：未知 id 直接拒绝，不落到任何命令', async () => 
     assert.equal(error.code, 'system-hud/unknown-command')
     return true
   })
+})
+
+test('cgroup 配额解析：cpu.max / cpuset', () => {
+  assert.equal(parseCpuMax('400000 100000'), 4, 'cpu.max → 4 核')
+  assert.equal(parseCpuMax('max 100000'), null, 'cpu.max=max 表示不限')
+  assert.equal(parseCpuMax('garbage'), null, 'cpu.max 非法值 → null')
+  assert.equal(countCpuList('0-3'), 4, 'cpuset 0-3 → 4 核')
+  assert.equal(countCpuList('0-1,3'), 3, 'cpuset 0-1,3 → 3 核')
+  assert.equal(countCpuList(''), null, 'cpuset 空 → null')
 })
 
 // ── 执行 ──────────────────────────────────────────────────────────────────

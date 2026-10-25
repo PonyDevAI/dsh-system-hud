@@ -1,6 +1,6 @@
 {
   "name": "@ponydev/dsh-system-hud",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "DSH Web 插件：对话顶栏 / 输入框底部 / 侧栏底部显示本机 CPU、内存、磁盘、网络、I/O、温度，点开右侧「系统」详情",
   "keywords": [
     "dsh",
