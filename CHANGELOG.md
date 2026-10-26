@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.4 — 2026-10-26
+## 0.1.7 — 2026-10-26
 
 ### 修复（云手机 / Linux 容器）
 
@@ -10,6 +10,8 @@
 - 新增 `POST /system-hud/diagnostics`：返回 `/proc/self/cgroup`、cgroup v1/v2 原始值、meminfo、thermal zones、网卡名，便于在云手机上确认真实数据源（只读、无凭据）。
 - 契约新增字段：`cpu.scope/cgroupCores`、`memory.scope/cgroupVersion/hostTotalBytes/limitBytes`、`temperature.scope/zones`、`host.scope/uptimeScope`；
 - UI：容器口径的内存/CPU 标注「容器」，温度标注「宿主 SoC」，内存图例显示「宿主 X」（与容器上限对照）。
+
+> 0.1.4–0.1.6（隐私门禁、每核动态网格、cgroup 核数/上限）由并行会话发布；本版在其之上补齐 CPU 差分回传、容器内存口径与诊断通道。
 
 ## 0.1.6 — 2026-10-26
 
