@@ -21,7 +21,7 @@
 | Client 格式 | 手写 `window.__ModuleLoader__.load({id,factory})`，无构建 | 同 | ✅ |
 | Client 取数 | 相对路径 `fetch('<route>/<endpoint>')` | 同 | ✅ |
 | i18n | NS = 包名，zh/en 键一致，`check-i18n` 强制 | 同（162 键） | ✅ |
-| Settings 页 | 标题 + 版本 + GitHub / 问题反馈 / 检查更新；更新弹窗 | 同；额外「恢复默认」 | ✅/⚠️ |
+| Settings 页 | 标题 + 版本 + GitHub / 问题反馈 / 检查更新；更新弹窗 | 同 + 「诊断」 | ✅ |
 | Settings 控件 | `dsh-model-usage` 用 primitives（Button/Switch/SegmentedTabs/Modal） | 同（Switch 已改用 `P.Switch`） | 🔧 |
 | Settings 内容区图标 | usage 自绘图表图标、tailscale 无图标 | 自绘「显示器 + 心跳线」系统监控图标（16 视图框 / stroke 1.4 / 18px） | ⚠️ 合理 |
 | 检查更新 | `update-check` endpoint + registry 缓存 + 手工更新命令 | 同；404 显示「尚未发布」而非报错 | ✅/⚠️ |
@@ -62,7 +62,6 @@
 ## 保留差异及理由
 
 1. **CSS 前缀 `huds-`**：不做 3 字母缩写（`dsh-` 与宿主类名可能冲突）；如要与 `dmu-/dph-/dst-` 完全一致，可机械重命名为 `dsy-`，但收益仅是命名统一。
-2. **设置页多一个「恢复默认」**：本插件配置项比额度插件多（位置/指标/采样/阈值），一键还原有用；`dsh-tailscale` 也在 actions 里放了额外按钮。
 3. **`404 → 尚未发布`**：其他插件会显示 `检查失败：HTTP 404`；本插件是本地 `link:` 安装，语义化更准确。
 4. **更新弹窗同时支持 `P.Modal` 与自绘浮层**：`dsh-model-usage` 依赖 `P.Modal`；本插件保留无 primitives 环境的降级路径（离线 harness 用）。
 

@@ -44,7 +44,6 @@ dsh plugin --profile web add link:/path/to/dsh-system-hud
 
 - 标题图标 + 版本号（`v0.1.2`）
 - **GitHub**（仓库）、**问题反馈**（Issues）、**检查更新**（查 npm 最新版，本地 `link:` 安装时显示「尚未发布到 npm」）
-- **恢复默认**（位置/指标/采样/阈值全部回到默认）
 - 控件全部用 DSH primitives（Button / Switch / SegmentedTabs / Modal），颜色只用 `--dsw-*` token
 
 ## 右侧面板
