@@ -549,6 +549,22 @@ test('COMMANDS：darwin 必备命令齐全且不含 iostat/top', () => {
   assert.ok(/\bnetstat\b/.test(flat) && /-ibn/.test(flat), 'netstat 必须带 -n')
 })
 
+test('云手机回归：cgroup v1（4 核配额 / 8G 限制）内存与核数口径', () => {
+  // 来自云手机诊断的真实数值（cgroup v1, quota=400000/100000, limit=8590983168）
+  const host = { totalBytes: 539394351104, availableBytes: 392441450496, cachedBytes: 55372234752, buffersBytes: 4637401088, swapUsedBytes: 359661568 }
+  const cg = { scope: 'cgroup-v1', usedBytes: 1082785792, limitBytes: 8590983168, cacheBytes: 86953984, swapUsedBytes: 0 }
+  const mem = composeLinuxMemory(host, cg)
+  assert.equal(mem.scope, 'container', '云手机应判定为容器口径')
+  assert.equal(mem.cgroupVersion, 'v1', 'cgroup v1')
+  assert.equal(mem.usedBytes, 1082785792, 'used = memory.usage_in_bytes（约 1.01 GiB）')
+  assert.equal(mem.totalBytes, 8590983168, 'total = memory.limit_in_bytes（8.0 GiB）')
+  assert.equal(mem.cacheBytes, 86953984, 'cache = memory.stat 的 total_cache')
+  assert.equal(mem.hostTotalBytes, 539394351104, '宿主总量 502 GiB 单独保留')
+  assert.equal(parseCpuMax('400000 100000'), 4, 'CPU 配额 4 核')
+  const stat = parseCgroupStatNumbers('cache 86953984\nrss 995704832\ntotal_cache 86953984\ntotal_rss 995704832\n')
+  assert.equal(stat.get('total_cache'), 86953984, 'v1 memory.stat total_cache')
+})
+
 test('runCommand：未知 id 直接拒绝，不落到任何命令', async () => {
   assert.equal(runCommand.length, 1, 'runCommand 只能接收白名单 id，不接受参数')
   await assert.rejects(() => runCommand('freestyle'), (error) => {

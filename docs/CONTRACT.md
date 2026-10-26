@@ -31,6 +31,7 @@
     "platform": "darwin",            // darwin | linux | other
     "chip": "Apple M2 Pro",          // 可选，取不到为 null
     "cores": 10,
+    "hostCores": 128,                // 宿主原始核数（容器里 cores 是 cgroup 配额核数）
     "uptimeSec": 738000,             // 宿主内核开机时长
     "scope": "host",                 // 机型信息是宿主口径
     "uptimeScope": "host",
