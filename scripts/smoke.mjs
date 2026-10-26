@@ -243,6 +243,7 @@ test('parseDf：darwin APFS 用 used+free 反算 total', () => {
   assert.equal(df.mounts.length, 2)
   const data = df.mounts.find((m) => m.mount === '/System/Volumes/Data')
   assert.ok(data, '应解析出 Data 卷')
+  assert.equal(data.source, '/dev/disk3s5', '解析出挂载源设备')
   assert.equal(data.usedBytes, 242411680 * 1024)
   assert.equal(data.freeBytes, 1674407152 * 1024)
   assert.equal(data.totalBytes, (242411680 + 1674407152) * 1024)
