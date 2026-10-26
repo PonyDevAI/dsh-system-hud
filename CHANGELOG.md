@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.4 — 2026-10-26
+
+### 修复（云手机 / Linux 容器）
+
+- CPU 在 Linux 容器里永远显示 `—`：`sampleFast` 的 cgroup 累计用量 `_cgUsage/_cgAt` 没有回传，下一轮拿不到基线；已修复并补测试。
+- 内存口径错误（`0B / 8.0G`、`缓存 63.3G`）：容器内混用了「宿主 MemTotal/MemAvailable」与「cgroup 上限」。改为容器口径 `memory.current` / `memory.max` / `memory.stat.file`，宿主总量单独保留（`hostTotalBytes`），无 cgroup 时回退宿主口径。
+- 慢设备/云手机上 fast 层偶发被拖慢导致误报「已过期」：stale 阈值改为 `max(4×周期, 8s)`。
+- 新增 `POST /system-hud/diagnostics`：返回 `/proc/self/cgroup`、cgroup v1/v2 原始值、meminfo、thermal zones、网卡名，便于在云手机上确认真实数据源（只读、无凭据）。
+- 契约新增字段：`cpu.scope/cgroupCores`、`memory.scope/cgroupVersion/hostTotalBytes/limitBytes`、`temperature.scope/zones`、`host.scope/uptimeScope`；
+- UI：容器口径的内存/CPU 标注「容器」，温度标注「宿主 SoC」，内存图例显示「宿主 X」（与容器上限对照）。
+
 ## 0.1.6 — 2026-10-26
 
 ### 修复（容器/云手机环境读到宿主机规格）

@@ -17,6 +17,8 @@ import {
   parseProcStat,
   parseCpuMax,
   countCpuList,
+  parseCgroupStatNumbers,
+  composeLinuxMemory,
   parsePs,
   parseSysctl,
   parseThermalSysfs,
@@ -561,6 +563,24 @@ test('cgroup 配额解析：cpu.max / cpuset', () => {
   assert.equal(countCpuList('0-3'), 4, 'cpuset 0-3 → 4 核')
   assert.equal(countCpuList('0-1,3'), 3, 'cpuset 0-1,3 → 3 核')
   assert.equal(countCpuList(''), null, 'cpuset 空 → null')
+})
+
+test('cgroup 内存口径：容器 used/limit/cache 与宿主总量分离', () => {
+  const stat = parseCgroupStatNumbers('anon 1048576\nfile 524288\nkernel 65536\n')
+  assert.equal(stat.get('file'), 524288, 'memory.stat 解析 file')
+  const host = { totalBytes: 8 * 2 ** 30, availableBytes: 6 * 2 ** 30, cachedBytes: 3 * 2 ** 30, buffersBytes: 0, swapUsedBytes: 0 }
+  const cg = { scope: 'cgroup-v2', usedBytes: 3 * 2 ** 30, limitBytes: 6 * 2 ** 30, cacheBytes: 2 ** 30, swapUsedBytes: 256 * 2 ** 20 }
+  const mem = composeLinuxMemory(host, cg)
+  assert.equal(mem.scope, 'container', '容器口径')
+  assert.equal(mem.cgroupVersion, 'v2', 'cgroup 版本单独保留')
+  assert.equal(mem.usedBytes, 3 * 2 ** 30, 'used 取 memory.current')
+  assert.equal(mem.totalBytes, 6 * 2 ** 30, 'total 取 memory.max')
+  assert.equal(mem.hostTotalBytes, 8 * 2 ** 30, '宿主总量单独保留')
+  assert.equal(mem.cacheBytes, 2 ** 30, 'cache 取 memory.stat.file')
+  const fallback = composeLinuxMemory(host, null)
+  assert.equal(fallback.scope, 'host', '无 cgroup 回退宿主口径')
+  assert.equal(fallback.usedBytes, 2 * 2 ** 30, '宿主 used = total - available')
+  assert.equal(fallback.limitBytes, null, '宿主口径无 limit')
 })
 
 // ── 执行 ──────────────────────────────────────────────────────────────────

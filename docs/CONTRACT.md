@@ -17,6 +17,7 @@
 | `config` | `{}` | 见 §4 配置 |
 | `save-config` | 部分配置对象（深合并） | 合并后的完整配置 |
 | `refresh` | `{}` | 强制重采后的 `snapshot` 值 |
+| `diagnostics` | `{}` | 容器/云手机诊断：`/proc/self/cgroup`、cgroup v1/v2 原始值、meminfo、thermal zones、网卡名（只读，无凭据） |
 
 ## 3. 快照（snapshot）
 
@@ -30,20 +31,28 @@
     "platform": "darwin",            // darwin | linux | other
     "chip": "Apple M2 Pro",          // 可选，取不到为 null
     "cores": 10,
-    "uptimeSec": 738000,
+    "uptimeSec": 738000,             // 宿主内核开机时长
+    "scope": "host",                 // 机型信息是宿主口径
+    "uptimeScope": "host",
     "sampledAt": 1761340800000
   },
   "cpu": {
     "usagePercent": 71.2,            // 0-100，1 位小数；首帧无前值为 null
     "perCore": [38.0, 62.4],         // 长度 = cores
     "load": [2.31, 2.10, 1.98],      // 1/5/15
+    "scope": "host",                 // host | container（Linux 容器读 cgroup）
+    "cgroupCores": null,             // 容器配额核数（host 时为 null）
     "sampledAt": 1761340800000
   },
   "memory": {
     "usedBytes": 26424115200,
     "totalBytes": 34359738368,
-    "cacheBytes": 1572864000,        // 可选
+    "cacheBytes": 1572864000,        // 可选；容器口径取 cgroup memory.stat.file
     "swapUsedBytes": 1288490188,
+    "scope": "host",                 // host | container
+    "cgroupVersion": null,           // "v1" | "v2"（容器口径才有）
+    "hostTotalBytes": 34359738368,   // 宿主总内存（容器口径时用于对照）
+    "limitBytes": null,              // 容器内存上限（无上限/宿主口径为 null）
     "sampledAt": 1761340800000
   },
   "disk": {
